@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Faridoon Karimi - Web Developer</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Google Font: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        container: { center: true, padding: '1rem' },
+        extend: {
+          fontFamily: { inter: ['Inter', 'sans-serif'] },
+          colors: {
+            primary: '#5D5CDE',
+            secondary: '#7C3AED',
+            accent: '#06B6D4',
+            dark: '#0B0B10',
+            glass: 'rgba(255,255,255,0.06)',
+          },
+          boxShadow: {
+            soft: '0 10px 30px rgba(0,0,0,0.15)',
+            glow: '0 0 30px rgba(93,92,222,0.5)',
+            'glow-lg': '0 0 45px rgba(93,92,222,0.6)',
+          },
+          backdropBlur: {
+            xs: '2px'
+          },
+          animation: {
+            'fade-in': 'fadeIn .8s ease-out both',
+            'slide-up': 'slideUp .7s ease-out both',
+            'float': 'float 4s ease-in-out infinite',
+            'pulse-slow': 'pulseSlow 3.5s ease-in-out infinite',
+            'border-glow': 'borderGlow 3s linear infinite',
+            'gradient-move': 'gradientMove 15s ease infinite',
+            'spin-slow': 'spin 8s linear infinite',
+            'blob-float-1': 'blobFloat1 10s ease-in-out infinite',
+            'blob-float-2': 'blobFloat2 12s ease-in-out infinite',
+          },
+          keyframes: {
+            fadeIn: { from: { opacity: 0 }, to: { opacity: 1 } },
+            slideUp: { from: { opacity: 0, transform: 'translateY(24px)' }, to: { opacity: 1, transform: 'translateY(0)' } },
+            float: {
+              '0%,100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-10px)' },
+            },
+            pulseSlow: {
+              '0%,100%': { transform: 'scale(1)' },
+              '50%': { transform: 'scale(1.02)' },
+            },
+            borderGlow: {
+              '0%': { boxShadow: '0 0 0 rgba(93,92,222,0)' },
+              '50%': { boxShadow: '0 0 24px rgba(93,92,222,0.6)' },
+              '100%': { boxShadow: '0 0 0 rgba(93,92,222,0)' },
+            },
+            gradientMove: {
+              '0%': { backgroundPosition: '0% 50%' },
+              '50%': { backgroundPosition: '100% 50%' },
+              '100%': { backgroundPosition: '0% 50%' },
+            },
+            spin: {
+              from: { transform: 'rotate(0deg)' },
+              to: { transform: 'rotate(360deg)' },
+            },
+            blobFloat1: {
+              '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
+              '30%': { transform: 'translate(-20px, 15px) scale(1.05)' },
+              '60%': { transform: 'translate(10px, -20px) scale(0.95)' },
+            },
+            blobFloat2: {
+              '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
+              '40%': { transform: 'translate(25px, -10px) scale(0.98)' },
+              '70%': { transform: 'translate(-15px, 20px) scale(1.03)' },
+            },
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Reset box-sizing for better responsiveness */
+    html {
+      box-sizing: border-box;
+    }
+    *, *::before, *::after {
+      box-sizing: inherit;
+    }
+
+    /* Prevent horizontal scrollbar on body */
+    body {
+      overflow-x: hidden; /* Ensure no horizontal scroll on smaller screens */
+      font-feature-settings: "ss01" 1, "cv01" 1;
+      scroll-behavior: smooth;
+    }
+
+    :root {
+      --radius: 18px;
+    }
+    
+    /* Fancy gradient background for hero */
+    .dynamic-gradient {
+      background: linear-gradient(120deg, #4f46e5, #06b6d4, #7c3aed, #22d3ee);
+      background-size: 200% 200%;
+      animation: gradientMove 15s ease infinite;
+    }
+    /* Glass card */
+    .glass {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.14);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .dark .glass {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+    /* Neon outline on hover */
+    .neon-hover {
+      transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+      border: 1px solid transparent;
+    }
+    .neon-hover:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 40px rgba(93,92,222,0.25);
+      border-color: rgba(93,92,222,0.45);
+    }
+    /* Button gradient */
+    .btn-grad {
+      background: linear-gradient(135deg, #ffffff 0%, #dbeafe 100%);
+      color: #4f46e5;
+      transition: transform .2s ease, filter .2s ease, box-shadow .2s ease;
+    }
+    .btn-grad:hover {
+      filter: brightness(1.05);
+      transform: translateY(-2px) scale(1.01);
+      box-shadow: 0 8px 20px rgba(79,70,229,0.2);
+    }
+    .btn-outline {
+      border: 2px solid #fff;
+      color: #fff;
+      background: transparent;
+      transition: transform .2s ease, background .2s ease, color .2s ease, border-color .2s ease;
+    }
+    .btn-outline:hover {
+      background: #ffffff;
+      color: #4f46e5;
+      border-color: #ffffff;
+      transform: translateY(-2px) scale(1.01);
+    }
+    /* Header blur + compact on scroll */
+    .site-nav.scrolled {
+      background: rgba(15,15,25,0.7);
+      border-bottom-color: rgba(255,255,255,0.12);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding-top: .4rem !important;
+      padding-bottom: .4rem !important;
+    }
+    /* Active nav underline */
+    .nav-link {
+      position: relative;
+      transition: color .25s ease;
+    }
+    .nav-link:after {
+      content:'';
+      position:absolute;
+      left:0;
+      bottom:-6px;
+      height:2px;
+      width:0;
+      background: linear-gradient(90deg,#5D5CDE,#7C3AED);
+      transition: width .25s ease;
+    }
+    .nav-link:hover:after, .nav-link.active:after { width:100%; }
+    /* Skill bars with wave */
+    .skill-bar {
+      position: relative;
+      overflow: hidden;
+      border-radius: 9999px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+    .skill-progress {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #5D5CDE, #7C3AED, #06B6D4);
+      background-size: 200% 100%;
+      animation: gradientMove 6s ease infinite;
+      box-shadow: inset 0 0 10px rgba(255,255,255,0.15);
+      transition: width 1.8s cubic-bezier(.2,.8,.2,1);
+    }
+    .skill-progress:after {
+      content:'';
+      position:absolute;
+      top:-40%;
+      left:0;
+      width:140%;
+      height:180%;
+      background: radial-gradient(ellipse at center, rgba(255,255,255,.18) 0%, rgba(255,255,255,0) 60%);
+      transform: translateX(-20%);
+      animation: float 5s ease-in-out infinite;
+      pointer-events: none;
+    }
+    /* WhatsApp float */
+    .whatsapp-float {
+      position: fixed;
+      width: 60px;
+      height: 60px;
+      bottom: 24px;
+      right: 24px;
+      background: #25D366;
+      color: #fff;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 28px;
+      box-shadow: 0 10px 25px rgba(37,211,102,0.35);
+      z-index: 1000;
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .whatsapp-float:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 16px 35px rgba(37,211,102,0.45);
+    }
+    /* Dark mode improvements */
+    body.dark { background: #0B0B10; color: #e6e6f0; }
+    .dark .text-gray-900 { color: #e9e9ff !important; }
+    .dark .text-gray-700 { color: #cfd3f2 !important; }
+    .dark .text-gray-600 { color: #b6b9d6 !important; }
+    .dark .bg-white { background: rgba(18,18,28,0.9) !important; }
+    .dark .shadow-lg { box-shadow: 0 12px 28px rgba(0,0,0,0.55) !important; }
+    /* Hero particles (pure CSS) */
+    .particles {
+      position:absolute; inset:0; overflow:hidden; pointer-events:none;
+    }
+    .particle {
+      position:absolute;
+      width:10px; height:10px;
+      border-radius:9999px;
+      background: radial-gradient(circle at 30% 30%, #fff, rgba(255,255,255,0.1));
+      opacity:.35;
+      animation: float 8s ease-in-out infinite;
+      filter: drop-shadow(0 0 8px rgba(255,255,255,0.35));
+    }
+    .particle.p1 { top:10%; left:8%; animation-duration:9s; }
+    .particle.p2 { top:22%; right:12%; animation-duration:7s; }
+    .particle.p3 { bottom:18%; left:15%; animation-duration:10s; }
+    .particle.p4 { bottom:28%; right:20%; animation-duration:8.5s; }
+    .particle.p5 { top:45%; left:50%; animation-duration:11s; }
+    /* Smooth sections snapping feel */
+    @media (min-width: 1024px) {
+      html { scroll-padding-top: 88px; }
+    }
+
+    /* Back to Top Button */
+    .back-to-top {
+      position: fixed;
+      bottom: 90px;
+      right: 24px;
+      width: 50px;
+      height: 50px;
+      background-color: var(--primary);
+      color: white;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      box-shadow: 0 5px 15px rgba(93,92,222,0.4);
+      z-index: 999;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.2s ease;
+    }
+    .back-to-top.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .back-to-top:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 8px 20px rgba(93,92,222,0.6);
+    }
+
+    /* New abstract shapes for hero section - Improved Responsiveness with vw and max-width */
+    .hero-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.3;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .hero-blob-1 {
+      width: 60vw; /* Scales with viewport width */
+      height: 60vw; /* Scales with viewport width */
+      max-width: 300px; /* Max size on larger screens */
+      max-height: 300px; /* Max size on larger screens */
+      background: radial-gradient(circle at center, rgba(93,92,222,0.8), rgba(93,92,222,0) 70%);
+      top: 15%;
+      left: 10%;
+      animation: blobFloat1 10s ease-in-out infinite;
+    }
+    .hero-blob-2 {
+      width: 50vw;
+      height: 50vw;
+      max-width: 250px;
+      max-height: 250px;
+      background: radial-gradient(circle at center, rgba(6,182,212,0.8), rgba(6,182,212,0) 70%);
+      bottom: 20%;
+      right: 15%;
+      animation: blobFloat2 12s ease-in-out infinite reverse;
+    }
+    /* Removed specific media query for blobs as vw/max-width handles scaling */
+  </style>
+</head>
+<body class="font-inter bg-white dark:bg-dark text-gray-900 dark:text-white selection:bg-primary/30">
+
+  <!-- Navigation -->
+  <nav class="site-nav fixed top-0 w-full z-50 transition-all duration-300 bg-white/60 dark:bg-dark/40 border-b border-gray-200/60 dark:border-white/10 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center py-4">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-secondary animate-spin-slow shadow-glow"></div>
+          <div class="text-xl md:text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-accent">Faridoon Karimi</div>
+        </div>
+
+        <div class="hidden md:flex items-center gap-8">
+          <a href="#home" class="nav-link active hover:text-primary transition-colors">Home</a>
+          <a href="#about" class="nav-link hover:text-primary transition-colors">About</a>
+          <a href="#experience" class="nav-link hover:text-primary transition-colors">Experience</a>
+          <a href="#skills" class="nav-link hover:text-primary transition-colors">Skills</a>
+          <a href="#contact" class="nav-link hover:text-primary transition-colors">Contact</a>
+          <button id="theme-toggle" class="ml-2 p-2 rounded-lg glass hover:shadow-soft transition-all" aria-label="Toggle theme">
+            <i class="fas fa-moon text-primary"></i>
+          </button>
+        </div>
+
+        <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg glass hover:shadow-soft text-white/90 transition-all" aria-label="Menu">
+          <i class="fas fa-bars text-xl"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white/90 dark:bg-dark/90 border-t border-white/10 backdrop-blur-md">
+      <div class="px-4 py-3 space-y-2">
+        <a href="#home" class="block py-2 nav-link hover:text-primary transition-colors">Home</a>
+        <a href="#about" class="block py-2 nav-link hover:text-primary transition-colors">About</a>
+        <a href="#experience" class="block py-2 nav-link hover:text-primary transition-colors">Experience</a>
+        <a href="#skills" class="block py-2 nav-link hover:text-primary transition-colors">Skills</a>
+        <a href="#contact" class="block py-2 nav-link hover:text-primary transition-colors">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Home Section -->
+  <section id="home" class="relative min-h-screen flex items-center justify-center pt-24 overflow-hidden">
+    <div class="absolute inset-0 dynamic-gradient opacity-95"></div>
+    <div class="absolute inset-0" style="background: radial-gradient(1200px 500px at 70% 10%, rgba(255,255,255,0.08), transparent)"></div>
+    
+    <!-- New abstract shapes -->
+    <div class="hero-blob hero-blob-1"></div>
+    <div class="hero-blob hero-blob-2"></div>
+
+    <div class="particles">
+      <span class="particle p1"></span>
+      <span class="particle p2"></span>
+      <span class="particle p3"></span>
+      <span class="particle p4"></span>
+      <span class="particle p5"></span>
+    </div>
+
+    <div class="relative z-10 w-full">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
+        <div class="mx-auto glass rounded-[var(--radius)] p-8 md:p-12 shadow-glow-lg animate-fade-in border border-white/10 group">
+          <img src="https://pfst.cf2.poecdn.net/base/image/b14660f1474a57b62ecf3d4996d72d9244539a6cc7a368a3f2273bddcabf138e?w=709&h=945"
+               alt="Faridoon Karimi"
+               class="w-40 h-40 md:w-48 md:h-48 rounded-full mx-auto mb-6 border-4 border-white/80 shadow-2xl object-cover animate-float transition-transform group-hover:scale-105 group-hover:rotate-1" />
+          <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-3 drop-shadow">
+            Faridoon Karimi
+          </h1>
+          <div class="text-lg md:text-2xl mb-6">
+            <span class="px-4 py-2 rounded-full bg-white/15 backdrop-blur text-white/95 inline-block border border-white/20 shadow-soft">
+              Web Developer & IS Professional
+            </span>
+          </div>
+          <p class="text-base md:text-lg mb-8 opacity-95">
+            Computer Science Graduate from Parwan University with expertise in web development, 
+            database management, and team leadership.
+          </p>
+          <div class="flex justify-center gap-3 md:gap-4">
+            <a href="#contact" class="btn-grad px-6 md:px-8 py-3 rounded-full font-semibold shadow-soft border border-white/60 transition-transform">
+              Hire Me
+            </a>
+            <a href="#about" class="btn-outline px-6 md:px-8 py-3 rounded-full font-semibold border-white/80 transition-transform">
+              Learn More
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-20 bg-gradient-to-b from-white to-slate-50 dark:from-dark dark:to-[#0f1220]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-14">
+        <h2 class="text-3xl md:text-4xl font-extrabold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-accent">
+          About Me
+        </h2>
+        <div class="w-24 h-[3px] mx-auto bg-gradient-to-r from-primary to-secondary rounded-full animate-border-glow"></div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8 lg:gap-12 items-start">
+        <div class="glass neon-hover rounded-[var(--radius)] p-6 md:p-8">
+          <h3 class="text-2xl font-bold mb-6">Personal Information</h3>
+          <div class="space-y-4 text-gray-800 dark:text-gray-200">
+            <div class="flex items-center gap-3">
+              <i class="fas fa-user text-primary text-xl"></i>
+              <span><strong>Name:</strong> Faridoon Karimi</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <i class="fas fa-birthday-cake text-primary text-xl"></i>
+              <span><strong>Born:</strong> 2001</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <i class="fas fa-map-marker-alt text-primary text-xl"></i>
+              <span><strong>Location:</strong> Kabul Province, Afghanistan</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <i class="fas fa-graduation-cap text-primary text-xl"></i>
+              <span><strong>Education:</strong> Computer Science, Parwan University (2024)</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <i class="fas fa-envelope text-primary text-xl"></i>
+              <span><strong>Email:</strong> faridoonkarimi2018@gmail.com</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <i class="fas fa-phone text-primary text-xl"></i>
+              <span><strong>Phone:</strong> +93783322296</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass neon-hover rounded-[var(--radius)] p-6 md:p-8">
+          <h3 class="text-2xl font-bold mb-6">Languages</h3>
+          <div class="space-y-6">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <i class="fas fa-flag text-primary"></i>
+                  <span class="font-semibold">Dari</span>
+                </div>
+                <span class="text-sm text-gray-600 dark:text-gray-400">Native</span>
+              </div>
+              <div class="skill-bar h-3">
+                <div class="relative skill-progress rounded-full" data-progress="100"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <i class="fas fa-flag text-primary"></i>
+                  <span class="font-semibold">Pashto</span>
+                </div>
+                <span class="text-sm text-gray-600 dark:text-gray-400">Fluent</span>
+              </div>
+              <div class="skill-bar h-3">
+                <div class="relative skill-progress rounded-full" data-progress="90"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <i class="fas fa-flag text-primary"></i>
+                  <span class="font-semibold">English</span>
+                </div>
+                <span class="text-sm text-gray-600 dark:text-gray-400">Good</span>
+              </div>
+              <div class="skill-bar h-3">
+                <div class="relative skill-progress rounded-full" data-progress="75"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience Section -->
+  <section id="experience" class="py-20 bg-white dark:bg-[#0c0f1a] relative">
+    <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(600px 280px at 20% 20%, rgba(93,92,222,.08), transparent), radial-gradient(600px 280px at 80% 80%, rgba(124,58,237,.08), transparent)"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-14">
+        <h2 class="text-3xl md:text-4xl font-extrabold mb-3">Experience</h2>
+        <div class="w-24 h-[3px] mx-auto bg-gradient-to-r from-primary to-secondary rounded-full"></div>
+      </div>
+
+      <div class="space-y-8">
+        <div class="glass neon-hover rounded-[var(--radius)] p-6 md:p-8 shadow-soft">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-3 gap-2">
+            <h3 class="text-xl font-bold">Web Developer</h3>
+            <span class="text-primary font-semibold">Freelance</span>
+          </div>
+          <h4 class="text-lg text-primary font-semibold mb-2">Various Projects</h4>
+          <p class="text-gray-700 dark:text-gray-300 mb-4">
+            Specialized in front-end web development with strong skills in building responsive, 
+            user-friendly websites. Created electronic attendance systems and various web applications.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1 rounded-full text-sm bg-primary/10 text-primary border border-primary/20">Web Development</span>
+            <span class="px-3 py-1 rounded-full text-sm bg-primary/10 text-primary border border-primary/20">Frontend</span>
+            <span class="px-3 py-1 rounded-full text-sm bg-primary/10 text-primary border border-primary/20">System Development</span>
+          </div>
+        </div>
+
+        <div class="glass neon-hover rounded-[var(--radius)] p-6 md:p-8 shadow-soft">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-3 gap-2">
+            <h3 class="text-xl font-bold">Deputy Dean of Computer Science Faculty</h3>
+            <span class="text-primary font-semibold">Current</span>
+          </div>
+          <h4 class="text-lg text-primary font-semibold mb-2">Academy Online Afghan</h4>
+          <p class="text-gray-700 dark:text-gray-300 mb-4">
+            Currently serving as Deputy Dean of Computer Science Faculty at Academy Online Afghan, 
+            providing free computer science education to Afghan girls who have been deprived of education.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1 rounded-full text-sm bg-primary/10 text-primary border border-primary/20">Education</span>
+            <span class="px-3 py-1 rounded-full text-sm bg-primary/10 text-primary border border-primary/20">Academic Leadership</span>
+            <span class="px-3 py-1 rounded-full text-sm bg-primary/10 text-primary border border-primary/20">Online Learning</span>
+          </div>
+        </div>
+
+        <div class="glass neon-hover rounded-[var(--radius)] p-6 md:p-8 shadow-soft">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-3 gap-2">
+            <h3 class="text-xl font-bold">HR Manager</h3>
+            <span class="text-gray-600 dark:text-gray-400">June 2022 - June 2024</span>
+          </div>
+          <h4 class="text-lg text-primary font-semibold mb-2">Sami Peeroz Manufacturing and Logistics Company</h4>
+          <p class="text-gray-700 dark:text-gray-300 mb-4">
+            Worked as HR Manager for two years on a part-time basis, balancing university studies 
+            with professional responsibilities. Managed human resources operations and team coordination.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1 rounded-full text-sm bg-primary/10 text-primary border border-primary/20">Human Resources</span>
+            <span class="px-3 py-1 rounded-full text-sm bg-primary/10 text-primary border border-primary/20">Team Management</span>
+            <span class="px-3 py-1 rounded-full text-sm bg-primary/10 text-primary border border-primary/20">Logistics</span>
+          </div>
+        </div>
+
+        <div class="glass neon-hover rounded-[var(--radius)] p-6 md:p-8 shadow-soft">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-3 gap-2">
+            <h3 class="text-xl font-bold">Financial Manager</h3>
+            <span class="text-gray-600 dark:text-gray-400">March 2020 - March 2022</span>
+          </div>
+          <h4 class="text-lg text-primary font-semibold mb-2">Quick Way Logistic</h4>
+          <p class="text-gray-700 dark:text-gray-300 mb-4">
+            Managed financial operations and accounting for a logistics company, 
+            handling budgets, financial reporting, and strategic financial planning.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1 rounded-full text-sm bg-primary/10 text-primary border border-primary/20">Financial Management</span>
+            <span class="px-3 py-1 rounded-full text-sm bg-primary/10 text-primary border border-primary/20">Accounting</span>
+            <span class="px-3 py-1 rounded-full text-sm bg-primary/10 text-primary border border-primary/20">Reporting</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section id="skills" class="py-20 bg-gradient-to-b from-slate-50 to-white dark:from-[#0f1220] dark:to-dark relative">
+    <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(700px 300px at 50% 0%, rgba(6,182,212,.10), transparent)"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-14">
+        <h2 class="text-3xl md:text-4xl font-extrabold mb-3">Skills & Technologies</h2>
+        <div class="w-24 h-[3px] mx-auto bg-gradient-to-r from-accent to-secondary rounded-full"></div>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
+        <div class="glass neon-hover rounded-[var(--radius)] p-6 md:p-8 shadow-soft">
+          <div class="text-center mb-6">
+            <div class="w-16 h-16 mx-auto rounded-2xl bg-primary/15 grid place-items-center border border-primary/25">
+              <i class="fas fa-code text-primary text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-bold mt-4">Programming</h3>
+          </div>
+          <div class="space-y-4">
+            <div class="flex items-center justify-between"><span class="flex items-center gap-2"><i class="fab fa-html5 text-orange-500"></i> HTML</span><span class="text-primary font-semibold">95%</span></div>
+            <div class="skill-bar h-2"><div class="relative skill-progress rounded-full" data-progress="95"></div></div>
+
+            <div class="flex items-center justify-between mt-3"><span class="flex items-center gap-2"><i class="fab fa-css3-alt text-blue-500"></i> CSS</span><span class="text-primary font-semibold">90%</span></div>
+            <div class="skill-bar h-2"><div class="relative skill-progress rounded-full" data-progress="90"></div></div>
+
+            <div class="flex items-center justify-between mt-3"><span class="flex items-center gap-2"><i class="fab fa-js-square text-yellow-500"></i> JavaScript</span><span class="text-primary font-semibold">85%</span></div>
+            <div class="skill-bar h-2"><div class="relative skill-progress rounded-full" data-progress="85"></div></div>
+
+            <div class="flex items-center justify-between mt-3"><span class="flex items-center gap-2"><i class="fab fa-php text-purple-500"></i> PHP</span><span class="text-primary font-semibold">80%</span></div>
+            <div class="skill-bar h-2"><div class="relative skill-progress rounded-full" data-progress="80"></div></div>
+          </div>
+        </div>
+
+        <div class="glass neon-hover rounded-[var(--radius)] p-6 md:p-8 shadow-soft">
+          <div class="text-center mb-6">
+            <div class="w-16 h-16 mx-auto rounded-2xl bg-accent/15 grid place-items-center border border-accent/25">
+              <i class="fas fa-database text-accent text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-bold mt-4">Database</h3>
+          </div>
+          <div class="space-y-4">
+            <div class="flex items-center justify-between"><span class="flex items-center gap-2"><i class="fas fa-leaf text-green-500"></i> MySQL</span><span class="text-accent font-semibold">90%</span></div>
+            <div class="skill-bar h-2"><div class="relative skill-progress rounded-full" data-progress="90"></div></div>
+
+            <div class="flex items-center justify-between mt-3"><span class="flex items-center gap-2"><i class="fas fa-database text-red-500"></i> Oracle</span><span class="text-accent font-semibold">75%</span></div>
+            <div class="skill-bar h-2"><div class="relative skill-progress rounded-full" data-progress="75"></div></div>
+
+            <div class="flex items-center justify-between mt-3"><span class="flex items-center gap-2"><i class="fas fa-server text-blue-600"></i> SQL Server</span><span class="text-accent font-semibold">80%</span></div>
+            <div class="skill-bar h-2"><div class="relative skill-progress rounded-full" data-progress="80"></div></div>
+
+            <div class="flex items-center justify-between mt-3"><span class="flex items-center gap-2"><i class="fas fa-fire text-orange-400"></i> Firebase</span><span class="text-accent font-semibold">70%</span></div>
+            <div class="skill-bar h-2"><div class="relative skill-progress rounded-full" data-progress="70"></div></div>
+          </div>
+        </div>
+
+        <div class="glass neon-hover rounded-[var(--radius)] p-6 md:p-8 shadow-soft">
+          <div class="text-center mb-6">
+            <div class="w-16 h-16 mx-auto rounded-2xl bg-secondary/15 grid place-items-center border border-secondary/25">
+              <i class="fas fa-tools text-secondary text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-bold mt-4">Tools & Systems</h3>
+          </div>
+          <div class="space-y-4">
+            <div class="flex items-center justify-between"><span class="flex items-center gap-2"><i class="fab fa-windows text-blue-500"></i> Windows</span><span class="text-secondary font-semibold">95%</span></div>
+            <div class="skill-bar h-2"><div class="relative skill-progress rounded-full" data-progress="95"></div></div>
+
+            <div class="flex items-center justify-between mt-3"><span class="flex items-center gap-2"><i class="fas fa-file-word text-blue-600"></i> MS Office</span><span class="text-secondary font-semibold">90%</span></div>
+            <div class="skill-bar h-2"><div class="relative skill-progress rounded-full" data-progress="90"></div></div>
+
+            <div class="flex items-center justify-between mt-3"><span class="flex items-center gap-2"><i class="fas fa-network-wired text-green-500"></i> Networking</span><span class="text-secondary font-semibold">80%</span></div>
+            <div class="skill-bar h-2"><div class="relative skill-progress rounded-full" data-progress="80"></div></div>
+
+            <div class="flex items-center justify-between mt-3"><span class="flex items-center gap-2"><i class="fas fa-microchip text-gray-400"></i> Hardware</span><span class="text-secondary font-semibold">75%</span></div>
+            <div class="skill-bar h-2"><div class="relative skill-progress rounded-full" data-progress="75"></div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="py-20 bg-white dark:bg-[#0b0e18]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-14">
+        <h2 class="text-3xl md:text-4xl font-extrabold mb-3">Get In Touch</h2>
+        <div class="w-24 h-[3px] mx-auto bg-gradient-to-r from-primary to-secondary rounded-full mb-4"></div>
+        <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+          Ready to start your next project? Let's work together to create something amazing.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8 lg:gap-12">
+        <div class="glass neon-hover rounded-[var(--radius)] p-6 md:p-8">
+          <h3 class="text-2xl font-bold mb-8">Contact Information</h3>
+          <div class="space-y-6">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-primary/15 border border-primary/25 grid place-items-center">
+                <i class="fas fa-envelope text-primary text-xl"></i>
+              </div>
+              <div>
+                <h4 class="font-semibold">Email</h4>
+                <a href="mailto:faridoonkarimi2018@gmail.com" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
+                  faridoonkarimi2018@gmail.com
+                </a>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-primary/15 border border-primary/25 grid place-items-center">
+                <i class="fas fa-phone text-primary text-xl"></i>
+              </div>
+              <div>
+                <h4 class="font-semibold">Phone</h4>
+                <a href="tel:+93783322296" class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
+                  +93 783 322 296
+                </a>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-green-100/20 border border-green-300/30 grid place-items-center">
+                <i class="fab fa-whatsapp text-green-500 text-xl"></i>
+              </div>
+              <div>
+                <h4 class="font-semibold">WhatsApp</h4>
+                <a href="https://wa.me/93783322296" target="_blank" class="text-gray-600 dark:text-gray-400 hover:text-green-500 transition-colors">
+                  Message me on WhatsApp
+                </a>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-primary/15 border border-primary/25 grid place-items-center">
+                <i class="fas fa-map-marker-alt text-primary text-xl"></i>
+              </div>
+              <div>
+                <h4 class="font-semibold">Location</h4>
+                <p class="text-gray-600 dark:text-gray-400">Takhar Province, Afghanistan</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass neon-hover rounded-[var(--radius)] p-6 md:p-8">
+          <form class="space-y-5" id="contact-form">
+            <div>
+              <label for="name" class="block text-sm font-medium mb-2">Name</label>
+              <input id="name" name="name" type="text" required class="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-white/5 border border-gray-300/60 dark:border-white/10 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition"/>
+            </div>
+
+            <div>
+              <label for="email" class="block text-sm font-medium mb-2">Email</label>
+              <input id="email" name="email" type="email" required class="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-white/5 border border-gray-300/60 dark:border-white/10 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition"/>
+            </div>
+
+            <div>
+              <label for="subject" class="block text-sm font-medium mb-2">Subject</label>
+              <input id="subject" name="subject" type="text" required class="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-white/5 border border-gray-300/60 dark:border-white/10 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition"/>
+            </div>
+
+            <div>
+              <label for="message" class="block text-sm font-medium mb-2">Message</label>
+              <textarea id="message" name="message" rows="5" required class="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-white/5 border border-gray-300/60 dark:border-white/10 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition"></textarea>
+            </div>
+
+            <button type="submit" class="w-full px-6 py-3 rounded-xl font-semibold text-white bg-gradient-to-r from-primary to-secondary shadow-glow hover:brightness-110 transition">
+              Send Message
+            </button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="relative bg-[#0b0d16] text-white py-12">
+    <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(800px 260px at 50% 0%, rgba(93,92,222,.15), transparent)"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h3 class="text-2xl font-extrabold mb-2">Faridoon Karimi</h3>
+      <p class="text-gray-400 mb-6">Web Developer & IS Professional</p>
+      <div class="flex justify-center gap-6 mb-6">
+        <a href="mailto:faridoonkarimi2018@gmail.com" class="text-gray-300 hover:text-white transition-colors">
+          <i class="fas fa-envelope text-xl"></i>
+        </a>
+        <a href="tel:+93783322296" class="text-gray-300 hover:text-white transition-colors">
+          <i class="fas fa-phone text-xl"></i>
+        </a>
+        <a href="https://wa.me/93783322296" target="_blank" class="text-gray-300 hover:text-green-400 transition-colors">
+          <i class="fab fa-whatsapp text-xl"></i>
+        </a>
+      </div>
+      <div class="border-t border-white/10 pt-6">
+        <p class="text-gray-500">&copy; 2024 Faridoon Karimi. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WhatsApp Float Button -->
+  <a href="https://wa.me/93783322296" target="_blank" class="whatsapp-float" title="Chat on WhatsApp" aria-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <!-- Back to Top Button -->
+  <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <script>
+    // Theme detection + manual toggle
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const root = document.documentElement;
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleIcon = themeToggle ? themeToggle.querySelector('i') : null;
+
+    const applyTheme = (dark) => {
+      if (dark) {
+        root.classList.add('dark');
+        if (themeToggleIcon) themeToggleIcon.className = 'fas fa-sun text-primary'; // Sun icon for dark mode
+      } else {
+        root.classList.remove('dark');
+        if (themeToggleIcon) themeToggleIcon.className = 'fas fa-moon text-primary'; // Moon icon for light mode
+      }
+    };
+
+    // Initial theme application
+    applyTheme(prefersDark.matches);
+    // Listen for system theme changes
+    prefersDark.addEventListener('change', e => applyTheme(e.matches));
+
+    // Manual theme toggle
+    if (themeToggle) {
+      themeToggle.addEventListener('click', () => {
+        root.classList.toggle('dark');
+        applyTheme(root.classList.contains('dark')); // Update icon immediately
+      });
+    }
+
+    // Header compact on scroll
+    const nav = document.querySelector('.site-nav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 24) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+    });
+
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileMenuIcon = mobileMenuBtn.querySelector('i');
+
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      if (mobileMenu.classList.contains('hidden')) {
+        mobileMenuIcon.className = 'fas fa-bars text-xl'; // Bars icon when closed
+      } else {
+        mobileMenuIcon.className = 'fas fa-times text-xl'; // Times icon when open
+      }
+    });
+
+    // Smooth scroll for internal links + close mobile menu
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        
+        // Close mobile menu if open
+        if (!mobileMenu.classList.contains('hidden')) {
+            mobileMenu.classList.add('hidden');
+            mobileMenuIcon.className = 'fas fa-bars text-xl'; // Reset icon
+        }
+      });
+    });
+
+    // Active nav state on scroll
+    const navLinks = document.querySelectorAll('.nav-link');
+    const sections = document.querySelectorAll('section[id]');
+    const setActive = () => {
+      let current = '';
+      sections.forEach(sec => {
+        const top = sec.offsetTop - 200; // Offset for header height
+        const height = sec.offsetHeight;
+        if (scrollY >= top && scrollY < top + height) {
+          current = sec.id;
+        }
+      });
+      navLinks.forEach(l => {
+        l.classList.remove('active');
+        if (l.getAttribute('href') === `#${current}`) {
+          l.classList.add('active');
+        }
+      });
+    };
+    window.addEventListener('scroll', setActive);
+    setActive(); // Set active link on initial load
+
+    // Animate skill bars when visible
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.querySelectorAll('.skill-progress').forEach(bar => {
+            const pct = bar.getAttribute('data-progress') || 0;
+            // Only animate if not already at target width
+            if (bar.style.width !== pct + '%') {
+                requestAnimationFrame(() => bar.style.width = pct + '%');
+            }
+          });
+        } else {
+            // Reset width when out of view, so it re-animates on scroll back
+            entry.target.querySelectorAll('.skill-progress').forEach(bar => {
+                bar.style.width = '0%';
+            });
+        }
+      });
+    }, { threshold: 0.4 });
+
+    document.querySelectorAll('#about, #skills').forEach(section => observer.observe(section));
+
+    // Contact form -> WhatsApp
+    document.getElementById('contact-form').addEventListener('submit', function(e){
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const subject = document.getElementById('subject').value.trim();
+      const message = document.getElementById('message').value.trim();
+      if (!name || !email || !subject || !message) {
+        alert('Please fill in all fields');
+        return;
+      }
+      const whatsappMessage = `Hello Faridoon! 
+
+*Name:* ${name}
+*Email:* ${email}
+*Subject:* ${subject}
+
+*Message:*
+${message}
+
+Best regards,
+${name}`;
+      const url = `https://wa.me/93783322296?text=${encodeURIComponent(whatsappMessage)}`;
+      window.open(url, '_blank');
+      this.reset();
+    });
+
+    // Back to Top functionality
+    const backToTopButton = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) { // Show button after scrolling 300px
+        backToTopButton.classList.add('show');
+      } else {
+        backToTopButton.classList.remove('show');
+      }
+    });
+
+    backToTopButton.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  </script>
+</body>
+</html>
